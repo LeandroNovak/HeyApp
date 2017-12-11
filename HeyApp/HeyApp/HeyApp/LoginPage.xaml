@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HeyApp.LoginPage">
+    <ContentPage.Content>
+        <Grid VerticalOptions="Center">
+            <ActivityIndicator x:Name="activityIndicator" 
+                               IsRunning="{ Binding IsBusy }" 
+                               IsVisible="True" Color="#7635EB" 
+                               VerticalOptions="Center" 
+                               HorizontalOptions="Center"/>
+            <ScrollView>
+                <StackLayout>
+                    <Image Source="icon"
+                           WidthRequest="96"
+                           HeightRequest="96"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="Center"/>
+                    <Label Text="Welcome to Hey!"
+                           FontSize="Large"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                    <Label Text="Sign in to continue."
+                           FontSize="Default"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                    <Label/>
+                    <Entry x:Name="MailEntry"
+                           Placeholder="Email"
+                           HorizontalOptions="FillAndExpand"
+                           Margin="10,0,10,0"
+                           VerticalOptions="Center"
+                           HeightRequest="50"/>
+                    <Button x:Name="LoginButton" 
+                            Text="Login"
+                            HorizontalOptions="FillAndExpand"
+                            Margin="10,0,10,0"
+                            BackgroundColor="#7635EB"
+                            TextColor="White"
+                            HeightRequest="60"/>
+                    <Label/>
+                    <Label x:Name="SignupLabel"
+                           Text="Not registered yet? Sign up now."
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                </StackLayout>
+            </ScrollView>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

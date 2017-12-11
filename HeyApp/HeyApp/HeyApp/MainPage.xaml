@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:HeyApp"
+             x:Class="HeyApp.MainPage"
+             x:Name="contentMain"
+             Title="Hey!">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Name="NewPost" Order="Primary" Text="New" Priority="0" Clicked="OnClickNewPost"/>
+    </ContentPage.ToolbarItems>
+    
+    <ContentPage.Content>
+        <Grid>
+            <ScrollView>
+                <StackLayout>
+                    <Button x:Name="ButtonEnable" Text="Enable" VerticalOptions="Center"/>
+                </StackLayout>
+            </ScrollView>
+
+            <ActivityIndicator x:Name="activityIndicator" IsRunning="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center" Color="Red"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
