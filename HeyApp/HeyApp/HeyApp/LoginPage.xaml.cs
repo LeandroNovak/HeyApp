@@ -39,8 +39,6 @@ namespace HeyApp
 
             signupTapGestureRecognizer.NumberOfTapsRequired = 1;
             SignupLabel.GestureRecognizers.Add(signupTapGestureRecognizer);
-
-            SharedData.page = this;
         }
 
         public void OnLoginClicked(object sender, EventArgs e)

@@ -12,8 +12,6 @@ namespace HeyApp
 {
     public static class Common
     {
-        public const string ConnectionString = YOUR_CONNECTION_STRING;
-
         public static bool IsValidEmail(string email)
         {
             const string MatchEmailPattern = @"^(([\w-]+\.)+[\w-]+|([a-zA-Z]{1}|[\w-]{2,}))@" + @"((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\."
@@ -68,7 +66,7 @@ namespace HeyApp
             // Connect to database
             try
             {
-                connection = new NpgsqlConnection(Common.ConnectionString);
+                connection = new NpgsqlConnection(Common.YOUR_CONNECTION_STRING);
                 connection.Open();
                 Console.WriteLine("Opened database connection");
             }
@@ -80,30 +78,26 @@ namespace HeyApp
 
             // Executes a command
             NpgsqlCommand command = connection.CreateCommand();
-            //command.CommandText = "SELECT * FROM public.users WHERE email='" + email + "'";
-            command.CommandText = "SELECT EXISTS (SELECT true FROM public.users WHERE email='" + email + "')";
+            command.CommandText = "SELECT id FROM public.users WHERE email='" + email + "'";
+
             try
             {
-                NpgsqlDataReader reader = command.ExecuteReader();
-
-                while (reader.Read())
+                if (command.ExecuteScalar() != null)
                 {
-                    if (reader[0].ToString().ToLower().Equals("true"))
-                    {
-                        // user exists
-                        connection.Close();
-                        return true;
-                    }
+                    connection.Close();
+                    return true;
                 }
-                connection.Close();
-
+                else
+                {
+                    throw new Exception("user not found");
+                }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                connection.Close();
             }
 
+            connection.Close();
             return false;
         }
 
@@ -113,7 +107,7 @@ namespace HeyApp
             // Connect to database
             try
             {
-                connection = new NpgsqlConnection(Common.ConnectionString);
+                connection = new NpgsqlConnection(Common.YOUR_CONNECTION_STRING);
                 connection.Open();
                 Console.WriteLine("Opened database connection");
             }
@@ -125,17 +119,18 @@ namespace HeyApp
 
             // Executes a command
             NpgsqlCommand command = connection.CreateCommand();
-            //command.CommandText = "SELECT * FROM public.users WHERE email='" + email + "'";
             command.CommandText = "SELECT * FROM public.users WHERE email='" + email + "'";
+
             try
             {
                 NpgsqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    Application.Current.Properties["id"] = reader[0].ToString();
-                    Application.Current.Properties["name"] = reader[1].ToString();
-                    Application.Current.Properties["email"] = reader[2].ToString();
+                    Application.Current.Properties["id"] = reader["id"].ToString();
+                    Application.Current.Properties["name"] = reader["name"].ToString();
+                    Application.Current.Properties["email"] = reader["email"].ToString();
+
                     connection.Close();
                     return true;
                 }
@@ -143,9 +138,9 @@ namespace HeyApp
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                connection.Close();
             }
 
+            connection.Close();
             return false;
         }
 
@@ -155,7 +150,7 @@ namespace HeyApp
             // Connect to database
             try
             {
-                connection = new NpgsqlConnection(Common.ConnectionString);
+                connection = new NpgsqlConnection(Common.YOUR_CONNECTION_STRING);
                 connection.Open();
                 Console.WriteLine("Opened database connection");
             }
@@ -182,10 +177,5 @@ namespace HeyApp
                 return false;
             }
         }
-    }
-
-    public class SharedData
-    {
-        public static Page page;
     }
 }
