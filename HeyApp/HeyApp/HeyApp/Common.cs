@@ -7,6 +7,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace HeyApp
 {
@@ -176,6 +177,24 @@ namespace HeyApp
                 connection.Close();
                 return false;
             }
+        }
+    }
+
+    public class ExpandableEditor : Editor
+    {
+        public ExpandableEditor()
+        {
+            TextChanged += OnTextChanged;
+        }
+
+        ~ExpandableEditor()
+        {
+            TextChanged -= OnTextChanged;
+        }
+
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            InvalidateMeasure();
         }
     }
 }

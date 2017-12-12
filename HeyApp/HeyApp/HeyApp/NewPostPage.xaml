@@ -1,24 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:HeyApp"
              x:Class="HeyApp.NewPostPage">
     <ContentPage.ToolbarItems>
         <ToolbarItem Name="PublishPost" Order="Primary" Text="Publish" Priority="0" Clicked="OnClickPublish"/>
     </ContentPage.ToolbarItems>
 
+
+    
     <ContentPage.Content>
         <StackLayout>
             <ScrollView VerticalOptions="FillAndExpand">
                 <StackLayout VerticalOptions="FillAndExpand">
-                    <Label Text="Title:"/>
+                    <Label Text="Title" Margin="10,0,10,0"/>
                     <Entry x:Name="TitleEntry"/>
-                    <Label Text="Description:"/>
-                    <Editor x:Name="DescriptionEditor" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
-                    <Image x:Name="PostImage" HorizontalOptions="FillAndExpand" Margin="10,10,10,10"/>
+                    <Label Text="Description" Margin="10,0,10,0"/>
+                    <local:ExpandableEditor x:Name="DescriptionEditor"/>
+                    <Image x:Name="PostImage" HorizontalOptions="FillAndExpand" Aspect="AspectFit"/>
+                    <Label x:Name="LocationLabel"/>
                 </StackLayout>
             </ScrollView>
             <StackLayout VerticalOptions="End">
-                <Button x:Name="AddImageButton" Text="Add image" Clicked="OnClickAddImage" HorizontalOptions="FillAndExpand" HeightRequest="50" BackgroundColor="#7635EB" TextColor="White" />
+                <Button x:Name="AddImageButton" Text="Add image" Clicked="OnClickAddImageAsync" HorizontalOptions="FillAndExpand" HeightRequest="50" BackgroundColor="#7635EB" TextColor="White" />
                 <Button x:Name="AddLocationButton" Text="Add location" Clicked="OnClickAddLocation" HorizontalOptions="FillAndExpand" HeightRequest="50" BackgroundColor="#7635EB" TextColor="White"/>
             </StackLayout>
         </StackLayout>
