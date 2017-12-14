@@ -17,13 +17,12 @@
                     <Entry x:Name="TitleEntry"/>
                     <Label Text="Description" Margin="10,0,10,0"/>
                     <local:ExpandableEditor x:Name="DescriptionEditor"/>
-                    <Image x:Name="PostImage" HorizontalOptions="FillAndExpand" Aspect="AspectFit"/>
+                    <Image x:Name="PostImage" HorizontalOptions="FillAndExpand" Aspect="AspectFill"/>
                     <Label x:Name="LocationLabel"/>
                 </StackLayout>
             </ScrollView>
-            <StackLayout VerticalOptions="End">
+            <StackLayout VerticalOptions="End" BackgroundColor="LightGray">
                 <Button x:Name="AddImageButton" Text="Add image" Clicked="OnClickAddImageAsync" HorizontalOptions="FillAndExpand" HeightRequest="50" BackgroundColor="#7635EB" TextColor="White" />
-                <Button x:Name="AddLocationButton" Text="Add location" Clicked="OnClickAddLocation" HorizontalOptions="FillAndExpand" HeightRequest="50" BackgroundColor="#7635EB" TextColor="White"/>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

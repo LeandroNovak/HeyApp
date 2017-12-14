@@ -1,6 +1,8 @@
 ﻿using Plugin.Media;
+using Plugin.Media.Abstractions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -16,7 +18,11 @@ namespace HeyApp
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class NewPostPage : ContentPage
 	{
+        string title;
+        string description;
         System.IO.Stream imageStream;
+        string imageStreamBase64;
+        byte[] byteStream;
 
 		public NewPostPage ()
 		{
@@ -26,7 +32,34 @@ namespace HeyApp
 
         public void OnClickPublish(object sender, EventArgs e)
         {
+            title = TitleEntry.Text;
+            description = DescriptionEditor.Text;
 
+            // Validate input
+            if (title == null)
+            {
+                DisplayAlert("No Title", "Please enter a title.", "OK");
+                return;
+            }
+            if (description == null)
+            {
+                DisplayAlert("No Description", "Please enter a description.", "OK");
+                return;
+            }
+            if (imageStreamBase64 == null)
+            {
+                DisplayAlert("No Image", "Please upload an image.", "OK");
+                return;
+            }
+
+            // Insert post on database
+            if (!Common.InsertPostOnDatabase(title, description, imageStreamBase64))
+            {
+                DisplayAlert("Oops", "Something went wrong. Try again later.", "OK");
+                return;
+            }
+
+            Navigation.PopAsync();
         }
 
         public async Task OnClickAddImageAsync(object sender, EventArgs e)
@@ -47,7 +80,6 @@ namespace HeyApp
 
         public async void TakePhoto()
         {
-            
             if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
             {
                 await DisplayAlert("No Camera", "No camera available.", "OK");
@@ -56,19 +88,18 @@ namespace HeyApp
 
             var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
             {
-                Directory = "Sample",
-                Name = "test.jpg"
+                PhotoSize = PhotoSize.Medium,
+                CompressionQuality = 95
             });
 
             if (file == null)
                 return;
 
-            PostImage.Source = ImageSource.FromStream(() =>
-            {
-                imageStream = file.GetStream();
-                file.Dispose();
-                return imageStream;
-            });
+            imageStream = file.GetStream();
+            byteStream = new byte[imageStream.Length];
+            await imageStream.ReadAsync(byteStream, 0, (int)imageStream.Length);
+            imageStreamBase64 = Convert.ToBase64String(byteStream);
+            PostImage.Source = ImageSource.FromStream(() => new MemoryStream(byteStream));
         }
 
         public async void PickPhoto()
@@ -81,24 +112,24 @@ namespace HeyApp
 
             var file = await CrossMedia.Current.PickPhotoAsync(new Plugin.Media.Abstractions.PickMediaOptions
             {
-                PhotoSize = Plugin.Media.Abstractions.PhotoSize.Full
+                PhotoSize = PhotoSize.Medium,
+                CompressionQuality = 95
             });
 
             if (file == null)
                 return;
 
-            PostImage.Source = ImageSource.FromStream(() =>
-            {
-                imageStream = file.GetStream();
-                file.Dispose();
-                return imageStream;
-            });
+            imageStream = file.GetStream();
+            byteStream = new byte[imageStream.Length];
+            await imageStream.ReadAsync(byteStream, 0, (int)imageStream.Length);
+            imageStreamBase64 = Convert.ToBase64String(byteStream);
+            PostImage.Source = ImageSource.FromStream(() => new MemoryStream(byteStream));
         }
         
-        public void OnClickAddLocation()
-        {
-
-        }
+        //public void OnClickAddLocation()
+        //{
+        //        < Button x: Name = "AddLocationButton" Text = "Add location" Clicked = "OnClickAddLocation" HorizontalOptions = "FillAndExpand" HeightRequest = "50" BackgroundColor = "#7635EB" TextColor = "White" />
+        //}
 
 
     }

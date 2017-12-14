@@ -6,16 +6,26 @@
              x:Name="contentMain"
              Title="Hey!">
     <ContentPage.ToolbarItems>
+        <ToolbarItem Name="ButtonEnable" Order="Primary" Text="Update" Priority="0" Clicked="ButtonClicked"/>
         <ToolbarItem Name="NewPost" Order="Primary" Text="New" Priority="0" Clicked="OnClickNewPost"/>
     </ContentPage.ToolbarItems>
     
     <ContentPage.Content>
         <Grid>
-            <ScrollView>
-                <StackLayout>
-                    <Button x:Name="ButtonEnable" Text="Enable" VerticalOptions="Center"/>
-                </StackLayout>
-            </ScrollView>
+            <ListView x:Name="postList" HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Vertical">
+                                <Label BackgroundColor="LightGray" HorizontalOptions="FillAndExpand"/>
+                                <Image Source="{Binding Image}" HorizontalOptions="FillAndExpand" Aspect="AspectFill" MinimumHeightRequest="200" HeightRequest="200" Margin="0,0,0,10"/>
+                                <Label Text="{Binding Title}" Font="20" FontAttributes="Bold" TextColor="#5D2ABB" Margin="10,0,10,0"/>
+                                <Label Text="{Binding Description}" Font="16" TextColor="Black" Margin="10,0,10,20"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
             <ActivityIndicator x:Name="activityIndicator" IsRunning="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center" Color="Red"/>
         </Grid>

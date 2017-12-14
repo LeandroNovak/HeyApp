@@ -13,6 +13,8 @@ namespace HeyApp
 {
     public static class Common
     {
+        // Inserir strings de conexão aqui
+
         public static bool IsValidEmail(string email)
         {
             const string MatchEmailPattern = @"^(([\w-]+\.)+[\w-]+|([a-zA-Z]{1}|[\w-]{2,}))@" + @"((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\."
@@ -163,13 +165,16 @@ namespace HeyApp
 
             // Executes a command
             NpgsqlCommand command = connection.CreateCommand();
-            //command.CommandText = "SELECT * FROM public.users WHERE email='" + email + "'";
             command.CommandText = "INSERT INTO PUBLIC.USERS (name, email) VALUES ('" + name + "', '" + email + "');";
             try
             {
-                NpgsqlDataReader reader = command.ExecuteReader();
+                if (command.ExecuteNonQuery() != 0)
+                {
+                    connection.Close();
+                    return true;
+                }
                 connection.Close();
-                return true;
+                return false;
             }
             catch (Exception ex)
             {
@@ -178,6 +183,139 @@ namespace HeyApp
                 return false;
             }
         }
+
+        public static bool InsertPostOnDatabase(string title, string description, string image)
+        {
+            string userId = Application.Current.Properties["id"].ToString();
+
+            NpgsqlConnection connection;
+
+            // Connect to database
+            try
+            {
+                connection = new NpgsqlConnection(Common.YOUR_CONNECTION_STRING);
+                connection.Open();
+                Console.WriteLine("Opened database connection");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return false;
+            }
+
+            // Executes a command
+            NpgsqlCommand command = connection.CreateCommand();
+            command.CommandText = "INSERT INTO PUBLIC.POSTS (title, description, image, status, location, userid) VALUES ('" 
+                + title + "', '" + description + "', '" + image + "', '" + true + "', '" + "" + "', '" + userId + "');";
+            try
+            {
+                if (command.ExecuteNonQuery() != 0)
+                {
+                    connection.Close();
+                    return true;
+                }
+                connection.Close();
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                connection.Close();
+                return false;
+            }
+        }
+
+        public static Stack<Post> GetPostsFromDatabase(uint LastIndex)
+        {
+            NpgsqlConnection connection;
+            Stack<Post> postList = new Stack<Post>();
+
+            // Connect to database
+            try
+            {
+                connection = new NpgsqlConnection(Common.YOUR_CONNECTION_STRING);
+                connection.Open();
+                Console.WriteLine("Opened database connection");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return null;
+            }
+
+            // Executes a command
+            NpgsqlCommand command = connection.CreateCommand();
+            command.CommandText = "SELECT * FROM PUBLIC.POSTS WHERE id > " + LastIndex.ToString() + " and id < " + (LastIndex + 5).ToString() + ";";
+
+            try
+            {
+                NpgsqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Post post = new Post();
+
+                    post.Title = reader["title"].ToString();
+                    post.Description = reader["description"].ToString();
+                    post.ImageBase64 = reader["image"].ToString();
+
+                    postList.Push(post);
+                }
+
+                connection.Close();
+                return postList;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            connection.Close();
+            return null;
+        }
+
+        //public static string GetPhoto()
+        //{
+        //    NpgsqlConnection connection;
+        //    // Connect to database
+        //    try
+        //    {
+        //        connection = new NpgsqlConnection(Common.YOUR_CONNECTION_STRING);
+        //        connection.Open();
+        //        Console.WriteLine("Opened database connection");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.ToString());
+        //        return null;
+        //    }
+
+        //    // Executes a command
+        //    NpgsqlCommand command = connection.CreateCommand();
+        //    command.CommandText = "select image from posts where id = 1;";
+
+        //    try
+        //    {
+        //        string image = command.ExecuteScalar().ToString();
+
+        //        if (image != null)
+        //        {
+        //            connection.Close();
+        //            return image;
+        //        }
+        //        else
+        //        {
+        //            throw new Exception("user not found");
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.ToString());
+        //    }
+
+        //    connection.Close();
+        //    return null;
+        //}
     }
 
     public class ExpandableEditor : Editor
