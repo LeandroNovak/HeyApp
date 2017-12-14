@@ -6,24 +6,29 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Name="PublishPost" Order="Primary" Text="Publish" Priority="0" Clicked="OnClickPublish"/>
     </ContentPage.ToolbarItems>
-
-
     
     <ContentPage.Content>
-        <StackLayout>
-            <ScrollView VerticalOptions="FillAndExpand">
-                <StackLayout VerticalOptions="FillAndExpand">
-                    <Label Text="Title" Margin="10,0,10,0"/>
-                    <Entry x:Name="TitleEntry"/>
-                    <Label Text="Description" Margin="10,0,10,0"/>
-                    <local:ExpandableEditor x:Name="DescriptionEditor"/>
-                    <Image x:Name="PostImage" HorizontalOptions="FillAndExpand" Aspect="AspectFill"/>
-                    <Label x:Name="LocationLabel"/>
+        <Grid>
+            <ActivityIndicator x:Name="activityIndicator" 
+                               IsRunning="{ Binding IsBusy }" 
+                               Color="#7635EB" 
+                               VerticalOptions="Center" 
+                               HorizontalOptions="Center"/>
+            <StackLayout>
+                <ScrollView VerticalOptions="FillAndExpand">
+                    <StackLayout VerticalOptions="FillAndExpand">
+                        <Label Text="Title" Margin="10,0,10,0"/>
+                        <Entry x:Name="TitleEntry"/>
+                        <Label Text="Description" Margin="10,0,10,0"/>
+                        <local:ExpandableEditor x:Name="DescriptionEditor"/>
+                        <Image x:Name="PostImage" HorizontalOptions="FillAndExpand" Aspect="AspectFill"/>
+                        <Label x:Name="LocationLabel"/>
+                    </StackLayout>
+                </ScrollView>
+                <StackLayout VerticalOptions="End" BackgroundColor="LightGray">
+                    <Button x:Name="AddImageButton" Text="Add image" Clicked="OnClickAddImageAsync" HorizontalOptions="FillAndExpand" HeightRequest="50" BackgroundColor="#7635EB" TextColor="White" />
                 </StackLayout>
-            </ScrollView>
-            <StackLayout VerticalOptions="End" BackgroundColor="LightGray">
-                <Button x:Name="AddImageButton" Text="Add image" Clicked="OnClickAddImageAsync" HorizontalOptions="FillAndExpand" HeightRequest="50" BackgroundColor="#7635EB" TextColor="White" />
             </StackLayout>
-        </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

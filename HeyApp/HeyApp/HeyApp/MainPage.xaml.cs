@@ -6,25 +6,20 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using System.Net.Mail;
 using System.IO;
+using System.Windows.Input;
+using Npgsql;
 
 namespace HeyApp
 {
-	public partial class MainPage : ContentPage
-	{
+    public partial class MainPage : ContentPage
+    {
         Stack<Post> Posts;
-        uint LastIndex;
 
         public MainPage()
         {
-            LastIndex = 0;
-            Posts = new Stack<Post>();
-            Posts = Common.GetPostsFromDatabase(LastIndex);
-            LastIndex += 5;
             InitializeComponent();
-
+            Posts = Common.GetPostsFromDatabase();
             this.BindingContext = this;
-            this.IsBusy = false;
-            
             postList.ItemsSource = Posts;
         }
 
@@ -32,17 +27,5 @@ namespace HeyApp
         {
             Navigation.PushAsync(new NewPostPage());
         }
-
-        public void ButtonClicked(Object sender, EventArgs e)
-        {
-            this.IsBusy = !this.IsBusy;
-            Stack<Post> newPosts = Common.GetPostsFromDatabase(LastIndex);
-            LastIndex += 5;
-
-            foreach (var post in newPosts)
-            {
-                Posts.Push(post);
-            }
-        }
     }
-}
+}   

@@ -28,38 +28,51 @@ namespace HeyApp
 		{
             InitializeComponent();
             CrossMedia.Current.Initialize();
+
+            this.BindingContext = this;
+            this.IsBusy = false;
         }
 
-        public void OnClickPublish(object sender, EventArgs e)
+        public async void OnClickPublish(object sender, EventArgs e)
         {
+            ToggleBusy();
             title = TitleEntry.Text;
             description = DescriptionEditor.Text;
 
             // Validate input
             if (title == null)
             {
-                DisplayAlert("No Title", "Please enter a title.", "OK");
+                await DisplayAlert("No Title", "Please enter a title.", "OK");
+                ToggleBusy();
                 return;
             }
             if (description == null)
             {
-                DisplayAlert("No Description", "Please enter a description.", "OK");
+                await DisplayAlert("No Description", "Please enter a description.", "OK");
+                ToggleBusy();
                 return;
             }
             if (imageStreamBase64 == null)
             {
-                DisplayAlert("No Image", "Please upload an image.", "OK");
+                await DisplayAlert("No Image", "Please upload an image.", "OK");
+                ToggleBusy();
                 return;
             }
 
             // Insert post on database
             if (!Common.InsertPostOnDatabase(title, description, imageStreamBase64))
             {
-                DisplayAlert("Oops", "Something went wrong. Try again later.", "OK");
+                await DisplayAlert("Oops", "Something went wrong. Try again later.", "OK");
+                ToggleBusy();
                 return;
             }
+            ToggleBusy();
+            await Navigation.PopAsync();
+        }
 
-            Navigation.PopAsync();
+        void ToggleBusy()
+        {
+            IsBusy = !IsBusy;
         }
 
         public async Task OnClickAddImageAsync(object sender, EventArgs e)
@@ -98,6 +111,8 @@ namespace HeyApp
             imageStream = file.GetStream();
             byteStream = new byte[imageStream.Length];
             await imageStream.ReadAsync(byteStream, 0, (int)imageStream.Length);
+
+            // Store as string 
             imageStreamBase64 = Convert.ToBase64String(byteStream);
             PostImage.Source = ImageSource.FromStream(() => new MemoryStream(byteStream));
         }
@@ -118,19 +133,14 @@ namespace HeyApp
 
             if (file == null)
                 return;
-
+            
             imageStream = file.GetStream();
             byteStream = new byte[imageStream.Length];
             await imageStream.ReadAsync(byteStream, 0, (int)imageStream.Length);
+
+            // Store as string 
             imageStreamBase64 = Convert.ToBase64String(byteStream);
             PostImage.Source = ImageSource.FromStream(() => new MemoryStream(byteStream));
         }
-        
-        //public void OnClickAddLocation()
-        //{
-        //        < Button x: Name = "AddLocationButton" Text = "Add location" Clicked = "OnClickAddLocation" HorizontalOptions = "FillAndExpand" HeightRequest = "50" BackgroundColor = "#7635EB" TextColor = "White" />
-        //}
-
-
     }
 }

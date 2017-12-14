@@ -21,7 +21,7 @@ namespace HeyApp
 {
     public class Post
     {
-		public string Title { get; set; }
+        public string Title { get; set; }
 
         public string Description { get; set; }
 
@@ -45,25 +45,7 @@ namespace HeyApp
 
         public Post()
         {
-
+            // Do nothing
         }
-
-        //public List<Post> GetPosts()
-        //{
-        //    List<Post> postList = Common.GetPostsFromDatabase();
-        //    return postList;
-        //}
-
-        //public ImageSource Base64ToImageSource()
-        //{
-        //	ImageSource imageSource = ImageSource.FromFile("");
-        //	return imageSource;
-        //}
-
-        //public string ToBase64()
-        //{
-        //	string base64string = "";
-        //	return base64string;
-        //}
     }
 }

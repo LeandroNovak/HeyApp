@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -225,7 +226,7 @@ namespace HeyApp
             }
         }
 
-        public static Stack<Post> GetPostsFromDatabase(uint LastIndex)
+        public static Stack<Post> GetPostsFromDatabase()
         {
             NpgsqlConnection connection;
             Stack<Post> postList = new Stack<Post>();
@@ -245,19 +246,19 @@ namespace HeyApp
 
             // Executes a command
             NpgsqlCommand command = connection.CreateCommand();
-            command.CommandText = "SELECT * FROM PUBLIC.POSTS WHERE id > " + LastIndex.ToString() + " and id < " + (LastIndex + 5).ToString() + ";";
-
+            command.CommandText = "SELECT * FROM POSTS";
             try
             {
                 NpgsqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    Post post = new Post();
-
-                    post.Title = reader["title"].ToString();
-                    post.Description = reader["description"].ToString();
-                    post.ImageBase64 = reader["image"].ToString();
+                    Post post = new Post
+                    {
+                        Title = reader["title"].ToString(),
+                        Description = reader["description"].ToString(),
+                        ImageBase64 = reader["image"].ToString()
+                    };
 
                     postList.Push(post);
                 }
@@ -273,49 +274,6 @@ namespace HeyApp
             connection.Close();
             return null;
         }
-
-        //public static string GetPhoto()
-        //{
-        //    NpgsqlConnection connection;
-        //    // Connect to database
-        //    try
-        //    {
-        //        connection = new NpgsqlConnection(Common.YOUR_CONNECTION_STRING);
-        //        connection.Open();
-        //        Console.WriteLine("Opened database connection");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine(ex.ToString());
-        //        return null;
-        //    }
-
-        //    // Executes a command
-        //    NpgsqlCommand command = connection.CreateCommand();
-        //    command.CommandText = "select image from posts where id = 1;";
-
-        //    try
-        //    {
-        //        string image = command.ExecuteScalar().ToString();
-
-        //        if (image != null)
-        //        {
-        //            connection.Close();
-        //            return image;
-        //        }
-        //        else
-        //        {
-        //            throw new Exception("user not found");
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine(ex.ToString());
-        //    }
-
-        //    connection.Close();
-        //    return null;
-        //}
     }
 
     public class ExpandableEditor : Editor

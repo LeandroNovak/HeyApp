@@ -6,13 +6,12 @@
              x:Name="contentMain"
              Title="Hey!">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Name="ButtonEnable" Order="Primary" Text="Update" Priority="0" Clicked="ButtonClicked"/>
         <ToolbarItem Name="NewPost" Order="Primary" Text="New" Priority="0" Clicked="OnClickNewPost"/>
     </ContentPage.ToolbarItems>
     
     <ContentPage.Content>
         <Grid>
-            <ListView x:Name="postList" HasUnevenRows="True">
+            <ListView x:Name="postList" HasUnevenRows="True" IsPullToRefreshEnabled="False">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -26,8 +25,6 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-
-            <ActivityIndicator x:Name="activityIndicator" IsRunning="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center" Color="Red"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>
