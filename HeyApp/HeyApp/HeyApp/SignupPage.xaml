@@ -3,35 +3,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HeyApp.SignupPage">
     <ScrollView>
-        <ActivityIndicator 
-                x:Name="IsRunningIndicator"
-                Color="Red" 
-                IsRunning="false" />
+        <ActivityIndicator x:Name="IsRunningIndicator"
+                           Color="Red" 
+                           IsRunning="false" />
         <StackLayout VerticalOptions="CenterAndExpand">
             <Entry x:Name="NameEntry"
-                Placeholder="Name"
-                HorizontalOptions="FillAndExpand"
-                Margin="10,0,10,0"
-                VerticalOptions="Center"
-                HeightRequest="50"/>
+                   Placeholder="Name"
+                   HorizontalOptions="FillAndExpand"
+                   Margin="10,0,10,0"
+                   VerticalOptions="Center"
+                   HeightRequest="50"/>
             <Entry x:Name="MailEntry"
-                Placeholder="Email"
-                HorizontalOptions="FillAndExpand"
-                Margin="10,0,10,0"
-                VerticalOptions="Center"
-                HeightRequest="50"/>
+                   Placeholder="Email"
+                   HorizontalOptions="FillAndExpand"
+                   Margin="10,0,10,0"
+                   VerticalOptions="Center"
+                   HeightRequest="50"/>
             <Button Text="Sign up"
-                HorizontalOptions="FillAndExpand"
-                Margin="10,0,10,0"
-                Clicked="OnSignupClicked"
-                BackgroundColor="#7635EB"
-                TextColor="White"
-                HeightRequest="60"/>
+                    HorizontalOptions="FillAndExpand"
+                    Margin="10,0,10,0"
+                    Clicked="OnSignupClicked"
+                    BackgroundColor="#7635EB"
+                    TextColor="White"
+                    HeightRequest="60"/>
             <Label/>
             <Label x:Name="SigninLabel"
-                Text="Already registered? Login me."
-                HorizontalOptions="Center"
-                VerticalOptions="Center"/>
+                   Text="Already registered? Login me."
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"/>
         </StackLayout>
     </ScrollView>
 </ContentPage>

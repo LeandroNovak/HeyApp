@@ -1,17 +1,11 @@
 ﻿using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-
-//<Editor x:Name="DescriptionEditor" HorizontalOptions="FillAndExpand" />
 
 namespace HeyApp
 {

@@ -45,7 +45,6 @@
                            VerticalOptions="Center"/>
                 </StackLayout>
             </ScrollView>
-
         </Grid>
     </ContentPage.Content>
 </ContentPage>

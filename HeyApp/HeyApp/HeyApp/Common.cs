@@ -1,21 +1,16 @@
 ﻿using Npgsql;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
 using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace HeyApp
 {
     public static class Common
     {
         // Inserir strings de conexão aqui
-
         public static bool IsValidEmail(string email)
         {
             const string MatchEmailPattern = @"^(([\w-]+\.)+[\w-]+|([a-zA-Z]{1}|[\w-]{2,}))@" + @"((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\."
@@ -31,7 +26,6 @@ namespace HeyApp
         public static void SendConfirmationEmail(string name, string email, string code)
         {
             var body = "<p>Hello <strong>" + name + "</strong>,</p><p>Your verification code is:</p><h1><strong>" + code + "</strong></h1>";
-            //var body = "<p>Olá <strong>" + name + "</strong>,</p><p>Seu código de confirmação é:</p><h1><strong>" + code + "</strong></h1>";
 
             SmtpClient client = new SmtpClient
             {

@@ -1,21 +1,6 @@
-﻿using Npgsql;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
+﻿using System;
 using System.IO;
-using System.Net.Mail;
-using System.Text;
-using System.Text.RegularExpressions;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
-/*
-stream = file.GetStream();
-var bytes = new byte [stream.Length];
-await stream.ReadAsync(bytes, 0, (int)stream.Length);
-string base64 = System.Convert.ToBase64String(bytes);
-*/
 
 namespace HeyApp
 {

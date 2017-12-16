@@ -3,8 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HeyApp.EmailConfirmationPage">
     <Grid>
-        <ActivityIndicator x:Name="activityIndicator" IsRunning="{ Binding IsBusy }" Color="#7635EB" VerticalOptions="Center" HorizontalOptions="Center"/>
-
+        <ActivityIndicator x:Name="activityIndicator" 
+                           IsRunning="{ Binding IsBusy }" 
+                           Color="#7635EB" 
+                           VerticalOptions="Center" 
+                           HorizontalOptions="Center"/>
         <ScrollView>
             <StackLayout VerticalOptions="CenterAndExpand">
                 <Label Text="Almost done!"
@@ -17,11 +20,11 @@
                        VerticalOptions="Center"/>
                 <Label/>
                 <Entry x:Name="VerificationCodeEntry"
-                    Placeholder="Verification code"
-                    HorizontalOptions="FillAndExpand"
-                    Margin="10,0,10,0"
-                    VerticalOptions="Center"
-                    HeightRequest="50"/>
+                       Placeholder="Verification code"
+                       HorizontalOptions="FillAndExpand"
+                       Margin="10,0,10,0"
+                       VerticalOptions="Center"
+                       HeightRequest="50"/>
                 <Button Text="Verify!"
                         x:Name="VerfifyButton"
                         HorizontalOptions="FillAndExpand"
@@ -31,9 +34,9 @@
                         HeightRequest="60"/>
                 <Label/>
                 <Label x:Name="ReSendLabel"
-                    Text="Did not receive any email? Click here to send again."
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"/>
+                       Text="Did not receive any email? Click here to send again."
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
             </StackLayout>
         </ScrollView>
     </Grid>

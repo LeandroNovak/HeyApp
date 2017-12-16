@@ -1,13 +1,4 @@
-﻿using Npgsql;
-using NpgsqlTypes;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -76,19 +67,15 @@ namespace HeyApp
 
                 Application.Current.Properties["LoginStatus"] = "true";
 
-                //IsRunningIndicator.IsRunning = false;
                 Navigation.InsertPageBefore(new MainPage(), this);
                 await Navigation.PopAsync();
-                //await Navigation.PushAsync(new MainPage());
             }
             else
             {
-                //IsRunningIndicator.IsRunning = false;
                 var answer = await DisplayAlert("Invalid code", "Would you like to receive another verification code?", "Yes", "No");
 
                 if (answer)
                 {
-                    //IsRunningIndicator.IsRunning = true;
                     // Sending another code
                     code = Common.GenerateCode();
                     Common.SendConfirmationEmail(name, email, code);

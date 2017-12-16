@@ -1,13 +1,4 @@
-﻿using Npgsql;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net.Mail;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-
+﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -33,7 +24,6 @@ namespace HeyApp
                 {
                     Navigation.InsertPageBefore(new SignupPage(), this);
                     Navigation.PopAsync();
-                    //Navigation.PushAsync(new SignupPage());
                 })
             };
 
@@ -43,8 +33,6 @@ namespace HeyApp
 
         public void OnLoginClicked(object sender, EventArgs e)
         {
-            //this.IsBusy = true;
-            activityIndicator.IsVisible = true;
             var email = MailEntry.Text.TrimEnd(' ');
 
             if (Common.IsValidEmail(email))
@@ -54,21 +42,18 @@ namespace HeyApp
                 {
                     // Send email (Confirmation Page)
                     Common.GetUserInformations(email);
-                    //IsRunningIndicator.IsRunning = false;
                     Navigation.InsertPageBefore(new EmailConfirmationPage(false), this);
                     Navigation.PopAsync();
                 }
                 else
                 {
                     // User not found. Sign up.
-                    //IsRunningIndicator.IsRunning = false;
                     DisplayAlert("Email not found!", "Sign up to use the app", "OK");
                 }
             }
             else
             {
                 // display error
-                //IsRunningIndicator.IsRunning = false;
                 DisplayAlert("Invalid email!", "Use a valid email address", "OK");
             }
             activityIndicator.IsVisible = false;
